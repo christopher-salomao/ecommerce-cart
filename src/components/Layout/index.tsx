@@ -5,7 +5,7 @@ function Layout() {
   return (
     <>
       <Header />
-      <main>
+      <main className="grow-1">
         <Outlet />
       </main>
     </>

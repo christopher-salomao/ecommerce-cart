@@ -1,8 +1,33 @@
 function Cart() {
   return (
-    <div>
-      <h1>Cart</h1>
-    </div>
+    <section id="cart" className="w-full max-w-7xl mx-auto">
+      <h1 className="mt-10 mb-4 text-2xl font-bold text-center">
+        Meu Carrinho
+      </h1>
+
+      <div className="flex items-center justify-between border-b-2 border-gray-300">
+        <img
+          className="w-full rounded-lg max-w-24 mb-2"
+          src="data:image/jpeg;base64,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"
+          alt="Imagem do produto"
+        />
+
+        <strong>Preço: R$499,00</strong>
+
+        <div className="flex gap-3 items-center">
+          <button className="bg-slate-700 px-2 text-white text-medium  rounded flex items-center justify-center">
+            -
+          </button>
+          <span>2</span>
+          <button className="bg-slate-700 px-1.5 text-white text-medium  rounded flex items-center justify-center">
+            +
+          </button>
+        </div>
+
+        <strong className="float-right">Subtotal: R$998,00</strong>
+      </div>
+      <p className="font-bold mt-4">Total: R$998,00</p>
+    </section>
   );
 }
 

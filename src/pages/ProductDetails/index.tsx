@@ -58,7 +58,7 @@ function ProductDetails() {
   }
 
   return (
-    <section className="w-full max-w-7xl mx-auto mt-10 px-4 flex flex-col md:flex-row items-center">
+    <section className="w-full max-w-7xl mx-auto mt-10 px-4 flex flex-col lg:flex-row items-center">
       <img
         className="w-full max-w-xs"
         src={product?.cover}

@@ -6,13 +6,10 @@ import { FaCartPlus } from "react-icons/fa";
 import { api } from "../../services/api";
 import { formatPrice } from "../../utils/coinFormat";
 
-export interface ProductProps {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  cover: string;
-}
+import type { ProductProps } from "../../interfaces/productsProps";
+import { Link } from "react-router-dom";
+
+import toast from "react-hot-toast";
 
 function Home() {
   const [productsList, setProductsList] = useState<ProductProps[]>([]);
@@ -21,9 +18,25 @@ function Home() {
 
   useEffect(() => {
     async function loadProducts() {
-      await api.get<ProductProps[]>("/products").then((response) => {
+      try {
+        const response = await toast.promise(
+          api.get<ProductProps[]>("/products"),
+          {
+            loading: "Careegando produtos...",
+            error: "Erro ao carregar produtos.",
+          },
+          {
+            style: {
+              backgroundColor: "#45556c",
+              borderRadius: 4,
+              color: "white",
+            }
+          }
+        );
         setProductsList(response.data);
-      });
+      } catch (error) {
+        console.error(error);
+      }
     }
     loadProducts();
   }, []);
@@ -35,26 +48,36 @@ function Home() {
       </h1>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
-      {productsList.length > 0 ? (
-        productsList.map((product) => (
-            <section key={product.id} className="w-full flex flex-col transition-transform duration-500 hover:scale-105">
-              <img
-                className="w-full rounded-lg self-center max-w-70 mb-2"
-                src={product.cover}
-                alt={product.title}
-              />
-              <p className="font-medium mt-1 mb-2">{product.title}</p>
+        {productsList.length > 0 ? (
+          productsList.map((product) => (
+            <section
+              key={product.id}
+              className="w-full flex flex-col transition-transform duration-500 hover:scale-105"
+            >
+              <Link className="self-center flex flex-col items-center" to={`/produtos/${product.id}`}>
+                <img
+                  className="w-full rounded-lg max-w-70 mb-2"
+                  src={product.cover}
+                  alt={product.title}
+                />
+                <p className="font-medium my-2">{product.title}</p>
+              </Link>
               <div className="flex gap-3 aling-center">
-                <strong className="text-zinc-700/90">{formatPrice.format(product.price)}</strong>
-                <button onClick={() => addToCart(product)} className="cursor-pointer px-1">
+                <strong className="text-zinc-700/90">
+                  {formatPrice.format(product.price)}
+                </strong>
+                <button
+                  onClick={() => addToCart(product)}
+                  className="cursor-pointer px-1"
+                >
                   <FaCartPlus size={22} />
                 </button>
               </div>
             </section>
-        ))
-      ) : (
-        <p className="mb-4 text-center">Carregando...</p>
-      )}
+          ))
+        ) : (
+          <p className="mb-4 text-center">Carregando...</p>
+        )}
       </div>
     </section>
   );

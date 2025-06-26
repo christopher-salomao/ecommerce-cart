@@ -46,11 +46,7 @@ function ProductDetails() {
     loadProduct()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    console.log(typeof product?.id);
-  }, [product])
+  }, [id])
 
   function handleAddToCart() {
     addToCart(product as ProductProps)
